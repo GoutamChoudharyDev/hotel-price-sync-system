@@ -56,4 +56,3 @@ export class HotelsService {
     return { deleted: true, id };
   }
 }
-

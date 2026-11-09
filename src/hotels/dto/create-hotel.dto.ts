@@ -71,4 +71,3 @@ export class CreateHotelDto {
   @IsOptional()
   ceilingPrice?: number = 500.0;
 }
-

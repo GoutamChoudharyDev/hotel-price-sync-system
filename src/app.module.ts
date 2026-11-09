@@ -1,7 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { LoggerModule } from 'nestjs-pino';
+import { join } from 'path';
 import { validate, Environment } from './config/env.validation';
 import { HealthModule } from './health/health.module';
 import { HotelsModule } from './hotels/hotels.module';
@@ -55,6 +58,14 @@ import { Reservation } from './hotels/entities/reservation.entity';
         synchronize: false, // MANDATORY: migrations only
         logging: configService.get<string>('NODE_ENV') === 'development',
       }),
+    }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      sortSchema: true,
+      playground: true,
+      introspection: true,
+      path: '/graphql',
     }),
     HealthModule,
     HotelsModule,

@@ -1,0 +1,106 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateHotelInput {
+  ceilingPrice: Float = 500
+  floorPrice: Float = 50
+  name: String!
+  pmsHotelId: String!
+  pmsType: String = "fake-pms"
+  status: HotelStatus = LIVE
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Hotel {
+  ceilingPrice: Float!
+  createdAt: DateTime!
+  floorPrice: Float!
+  id: ID!
+  name: String!
+  pmsHotelId: String!
+  pmsType: String!
+
+  """Child room types for this hotel property"""
+  roomTypes: [RoomType!]!
+
+  """Computed count of room types belonging to this property"""
+  roomTypesCount: Int!
+  status: HotelStatus!
+  updatedAt: DateTime!
+}
+
+"""Operational status of the hotel"""
+enum HotelStatus {
+  DRAFT
+  INACTIVE
+  LIVE
+}
+
+type Mutation {
+  """Register a new hotel property via GraphQL"""
+  createHotel(input: CreateHotelInput!): Hotel!
+}
+
+type Query {
+  """Retrieve a single hotel by UUID"""
+  hotel(id: ID!): Hotel!
+
+  """Retrieve all registered hotels"""
+  hotels: [Hotel!]!
+
+  """Retrieve hotel reservations within a specified check-in date window"""
+  reservations(
+    """Start date in ISO format (YYYY-MM-DD)"""
+    from: String!
+    hotelId: ID!
+
+    """End date in ISO format (YYYY-MM-DD)"""
+    to: String!
+  ): [Reservation!]!
+}
+
+type Reservation {
+  """Check-in date (ISO YYYY-MM-DD)"""
+  checkIn: String!
+
+  """Check-out date (ISO YYYY-MM-DD)"""
+  checkOut: String!
+  createdAt: DateTime!
+  currency: String!
+  guestName: String!
+  hotelId: ID!
+  id: ID!
+  pmsReservationId: String!
+  roomType: RoomType
+  roomTypeId: ID
+  status: ReservationStatus!
+
+  """Computed duration of stay in nights calculated via Luxon"""
+  stayNights: Int!
+  totalAmount: Float!
+  updatedAt: DateTime!
+}
+
+"""Current status of the reservation"""
+enum ReservationStatus {
+  CANCELLED
+  CHECKED_IN
+  CHECKED_OUT
+  CONFIRMED
+}
+
+type RoomType {
+  capacity: Int!
+  createdAt: DateTime!
+  hotelId: ID!
+  id: ID!
+  name: String!
+  pmsRoomTypeId: String!
+  rateDifferential: Float!
+  updatedAt: DateTime!
+}
