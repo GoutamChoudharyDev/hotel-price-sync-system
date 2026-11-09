@@ -48,4 +48,3 @@ export class RoomType {
   @OneToMany(() => Reservation, (reservation) => reservation.roomType)
   reservations: Reservation[];
 }
-

@@ -101,4 +101,3 @@ export class InitialHotelSyncSchema1731140000000 implements MigrationInterface {
     await queryRunner.query(`DROP TYPE "hotel_status_enum";`);
   }
 }
-

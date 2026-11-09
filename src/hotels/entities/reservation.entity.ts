@@ -75,4 +75,3 @@ export class Reservation {
   @JoinColumn({ name: 'roomTypeId' })
   roomType: RoomType | null;
 }
-
